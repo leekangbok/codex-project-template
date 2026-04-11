@@ -18,6 +18,7 @@ def run(command: list[str], *, cwd: Path | None = None, input_text: str | None =
         cwd=str(cwd) if cwd else None,
         input=input_text,
         text=True,
+        encoding="utf-8",
         check=True,
     )
 
@@ -159,8 +160,10 @@ def maybe_commit(project_dir: Path) -> None:
 
 
 def maybe_run_codex(project_dir: Path) -> None:
-    if os.environ.get("CODEX_AUTOSTART", "1").strip() in {"0", "false", "False", "no"}:
-        print("CODEX_AUTOSTART 설정으로 Codex 자동 실행을 건너뜁니다.")
+    autostart = os.environ.get("CODEX_AUTOSTART", "0").strip()
+    if autostart not in {"1", "true", "True", "yes", "on"}:
+        print("기본 설정에서는 Codex 자동 실행을 하지 않습니다.")
+        print(f"필요하면 프로젝트 폴더로 이동한 뒤 수동으로 실행하세요: cd {project_dir} && codex")
         return
 
     codex_path = shutil.which("codex")
@@ -168,9 +171,13 @@ def maybe_run_codex(project_dir: Path) -> None:
         print("codex 명령을 찾지 못했습니다. 필요하면 프로젝트 폴더에서 수동으로 실행하세요.")
         return
 
-    prompt = (project_dir / ".codex-start.txt").read_text(encoding="utf-8")
+    prompt = (project_dir / ".codex-start.txt").read_text(encoding="utf-8-sig")
     print("Codex 세션을 시작합니다.")
-    run([codex_path], cwd=project_dir, input_text=prompt)
+    try:
+        run([codex_path], cwd=project_dir, input_text=prompt)
+    except Exception as exc:
+        print(f"Codex 자동 실행에 실패했습니다: {exc}")
+        print("프로젝트 생성은 완료되었으니, 프로젝트 폴더에서 codex를 수동으로 실행하세요.")
 
 
 def main() -> int:

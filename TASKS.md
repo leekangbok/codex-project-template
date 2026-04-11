@@ -7,6 +7,8 @@
 - [ ] `README.md`에 실제 프로젝트명, 요약, 대상 사용자를 작성하기
 - [ ] 기술 스택과 표준 명령 정하기
 - [ ] `docs/architecture.md`의 기본 메모를 실제 구조로 교체하기
+- [ ] `HARNESS.md`에 실제 검증 전략 기록하기
+- [ ] `scripts/check.py`에 실제 lint/test/typecheck/build 명령 채우기
 - [ ] 첫 구현 대상과 첫 테스트 대상을 정의하기
 - [ ] `create-project` 스크립트가 실제 새 프로젝트 흐름에 맞는지 점검하기
 
