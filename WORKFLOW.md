@@ -6,7 +6,7 @@
 
 1. 새 프로젝트 생성
 2. 질문형 초기 설정 실행
-3. 검증 하네스 채우기
+3. 생성된 검증 하네스 점검
 4. 첫 작업 정의
 5. 구현
 6. 검증 통과
@@ -32,10 +32,11 @@
 - `TASKS.md`
 - `docs/architecture.md`
 - `HARNESS.md`
+- `scripts/check.py`
 
 ### 1-3. 검증 하네스 설정
 
-다음으로 `scripts/check.py`를 프로젝트에 맞게 수정합니다.
+다음으로 생성된 `scripts/check.py`를 검토하고 프로젝트에 맞게 보강합니다.
 
 기본 스타터 프로필은 Python/FastAPI 기준입니다.
 필요하면 다른 스택 예시를 `docs/references/check-examples.md`에서 참고해 바꿉니다.

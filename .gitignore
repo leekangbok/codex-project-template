@@ -30,3 +30,8 @@ coverage/
 # Local environment
 .env
 .env.*
+
+# Temporary workspace artifacts
+.tmp-intake-test/
+scripts/check_clean.py
+scripts/project_intake_fixed.py
