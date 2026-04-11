@@ -7,10 +7,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def ask(prompt: str, default: str = "") -> str:
+def ask(prompt: str, default: str = "", description: str = "") -> str:
+    if description:
+        print(f"\n[도움말] {description}")
     suffix = f" [{default}]" if default else ""
     try:
-        value = input(f"{prompt}{suffix}: ").strip()
+        value = input(f"   {prompt}{suffix}: ").strip()
     except EOFError:
         print("\n입력이 중단되었습니다. 이 스크립트는 대화형 터미널에서 실행해야 합니다.")
         raise SystemExit(1)
@@ -145,27 +147,99 @@ def main() -> int:
     print("프로젝트 초기 설정을 시작합니다.")
     print("질문에 답하면 핵심 문서를 현재 프로젝트에 맞게 자동으로 채웁니다.\n")
 
-    project_name = ask("프로젝트명", ROOT.name)
-    summary = ask("한 줄 요약", "아직 설명이 정리되지 않은 신규 프로젝트")
-    target_users = ask("주요 사용자", "내부 팀 또는 초기 사용자")
-    problem = ask("해결하려는 문제", "문제 정의가 더 필요합니다")
-    mvp_scope = ask("MVP 범위", "핵심 기능 1~2개부터 시작")
-    out_of_scope = ask("초기 제외 범위", "고급 기능과 확장 요구사항은 제외")
+    project_name = ask(
+        "프로젝트명",
+        ROOT.name,
+        "프로젝트를 고유하게 식별하는 이름입니다. 폴더명, 설정 데이터, 문서 제목의 기준이 됩니다. (예: my-awesome-app, data-cruncher-cli)",
+    )
+    summary = ask(
+        "한 줄 요약",
+        "아직 설명이 정리되지 않은 신규 프로젝트",
+        "프로젝트의 존재 이유를 빠르게 전달합니다. 협업자나 AI가 3초 안에 파악할 수 있게 돕습니다. (예: 저지연 분산 로그 수집기, 개인용 가계부)",
+    )
+    target_users = ask(
+        "주요 사용자",
+        "내부 팀 또는 초기 사용자",
+        "제품을 실제로 사용하는 사람이나 시스템입니다. 타겟에 따라 에러 메시지나 UI 설계 방향이 결정됩니다. (예: 사내 개발팀, 일반 사용자)",
+    )
+    problem = ask(
+        "해결하려는 문제",
+        "문제 정의가 더 필요합니다",
+        "이 프로젝트가 해결하려는 핵심 통증(Pain point)입니다. 모든 기능 추가 여부의 기준이 됩니다. (예: 기기 간 데이터 동기화 속도 저하, 수동 영수증 처리의 번거로움)",
+    )
+    mvp_scope = ask(
+        "MVP 범위",
+        "핵심 기능 1~2개부터 시작",
+        "가장 먼저 완성해야 할 핵심 기능군입니다. 빠르게 실제 가치를 검증하기 위한 최소 범위입니다. (예: 로그인 및 메모 작성 서비스, CSV 차트 시각화 로직)",
+    )
+    out_of_scope = ask(
+        "초기 제외 범위",
+        "고급 기능과 확장 요구사항은 제외",
+        "초기 단계에서 의도적으로 배제할 기능입니다. 일정 지연과 설계 복잡도를 방지합니다. (예: 소셜 로그인, 모바일 앱 지원, 다국어 설정)",
+    )
 
-    language = ask("사용 언어", "Python")
-    framework = ask("프레임워크", "FastAPI")
-    package_manager = ask("패키지 매니저", "pip")
-    test_tool = ask("테스트 도구", "pytest")
-    deploy_target = ask("배포 대상", "미정")
+    language = ask(
+        "사용 언어",
+        "Python",
+        "프로젝트의 주력 프로그래밍 언어입니다. AI의 코드 작성 스타일과 환경 구축의 기준이 됩니다. (예: Python, Rust, Go, TypeScript)",
+    )
+    framework = ask(
+        "프레임워크",
+        "FastAPI",
+        "사용할 주력 프레임워크입니다. 시스템 아키텍처와 라이브러리 선택에 영향을 줍니다. (예: FastAPI, Axum, Gin, Next.js)",
+    )
+    package_manager = ask(
+        "패키지 매니저",
+        "pip",
+        "라이브러리와 의존성을 관리할 도구입니다. (예: pip, npm, pnpm, cargo, go mod)",
+    )
+    test_tool = ask(
+        "테스트 도구",
+        "pytest",
+        "코드의 품질을 검증할 테스트 프레임워크입니다. (예: pytest, vitest, jest, go test, cargo test)",
+    )
+    deploy_target = ask(
+        "배포 대상",
+        "미정",
+        "최종적으로 제품이 실행될 환경입니다. 인프라 설정의 기준이 됩니다. (예: AWS Lambda, Vercel, Docker, On-premise)",
+    )
 
-    install_cmd = ask("설치 명령", "pip install -r requirements.txt")
-    dev_cmd = ask("개발 실행 명령", "uvicorn src.main:app --reload")
-    test_cmd = ask("테스트 명령", "pytest -q")
-    lint_cmd = ask("린트 명령", "ruff check .")
-    build_cmd = ask("빌드 명령", "미정")
+    install_cmd = ask(
+        "설치 명령",
+        "pip install -r requirements.txt",
+        "신규 참여자가 개발 환경을 구축하기 위해 실행할 표준 명령입니다. (예: pip install -r requirements.txt, npm install)",
+    )
+    dev_cmd = ask(
+        "개발 실행 명령",
+        "uvicorn src.main:app --reload",
+        "로컬 환경에서 개발 서버를 띄우거나 앱을 실행할 명령입니다. (예: uvicorn src.main:app --reload, npm run dev)",
+    )
+    test_cmd = ask(
+        "테스트 명령",
+        "pytest -q",
+        "전체 테스트를 실행하는 표준 명령입니다. (예: pytest -q, npm test, cargo test)",
+    )
+    lint_cmd = ask(
+        "린트 명령",
+        "ruff check .",
+        "코드 스타일과 문법 오류를 체크하는 명령입니다. (예: ruff check ., eslint ., cargo clippy)",
+    )
+    build_cmd = ask(
+        "빌드 명령",
+        "미정",
+        "배포를 위해 제품을 빌드하거나 컴파일하는 명령입니다. (예: docker build -t my-app ., npm run build)",
+    )
 
-    first_feature = ask("가장 먼저 만들 기능", "첫 핵심 기능 정의 필요")
-    main_risk = ask("현재 가장 큰 리스크", "요구사항과 구조가 아직 고정되지 않음")
+    first_feature = ask(
+        "가장 먼저 만들 기능",
+        "첫 핵심 기능 정의 필요",
+        "지금 바로 구현을 시작할 구체적인 첫 번째 핵심 조각입니다. '무엇부터 할까' 고민을 즉시 해결합니다. (예: DB 연결 설정, 기본 레이아웃 제작)",
+    )
+    main_risk = ask(
+        "현재 가장 큰 리스크",
+        "요구사항과 구조가 아직 고정되지 않음",
+        "성공을 방해할 수 있는 위협 요소입니다. 미리 인지하면 대응책을 세우거나 설계를 보강할 수 있습니다. (예: 외부 API 속도 불안정, 기술 숙련도 부족)",
+    )
 
     readme = f"""# {project_name}
 

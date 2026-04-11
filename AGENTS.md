@@ -24,6 +24,8 @@
   `docs/product-specs/`
 - 검증 및 품질 기준
   `HARNESS.md`, `docs/QUALITY.md`, `docs/RELIABILITY.md`, `docs/SECURITY.md`
+- AI 에이전트 스킬 및 워크플로우
+  `skills/README.md`, `skills/` 디렉토리 전체
 - 참고 자료와 외부 레퍼런스
   `docs/references/`
 - 자동 생성 자료
