@@ -1,4 +1,4 @@
-이 저장소는 Codex 중심 작업 흐름과 "Harness Engineering" 원칙을 사용합니다.
+이 저장소는 AI 코딩에이전트 중심 작업 흐름과 "Harness Engineering" 원칙을 사용합니다.
 모든 답변과 코드 내 주석은 한국어로 작성하며, 모든 파일은 UTF-8 인코딩을 유지합니다.
 
 세션 시작 시 필수 확인 순서:
@@ -6,7 +6,7 @@
 1. `AGENTS.md`, `README.md`, `WORKFLOW.md`, `AI_RULES.md`, `HARNESS.md`, `CONTEXT.md`, `TASKS.md`를 읽습니다.
 2. 작업 도메인에 맞는 가이드가 `skills/` 디렉토리에 있는지 확인하고, 있다면 해당 스킬의 워크플로우를 최우선으로 따릅니다.
 3. 구조나 설계에 영향이 있을 수 있으면 `docs/architecture.md`와 관련 `docs/` 문서를 함께 읽습니다.
-4. 프로젝트 핵심 정보가 비어 있거나 추상적이면 사용자에게 질문하거나 `scripts/project-intake.bat` 실행을 안내합니다.
+4. 프로젝트 핵심 정보가 비어 있거나 추상적이면 사용자에게 질문합니다.
 5. 큰 작업은 구현 전에 `docs/exec-plans/active/`에 실행 계획을 먼저 수립하고 사용자 승인을 받습니다.
 
 작업 및 응답 원칙:
@@ -19,5 +19,5 @@
 
 세션 종료 전 마무리:
 
-1. `python scripts/auto_codex_context.py`를 실행하여 컨텍스트 블록을 최신화합니다.
+1. 모든 문서를 최신화합니다.
 2. 다음 세션이 바로 작업을 이어받을 수 있도록 `TASKS.md`의 진행 상황과 `CONTEXT.md`의 다음 단계를 명확히 정리합니다.
